@@ -1,0 +1,55 @@
+body{
+    background-color: rgb(249, 249, 249) !important;
+}
+.nav-btn:hover {
+    background-color: #bfdbba !important;
+}
+.card-btn {
+    text-transform: capitalize !important;
+    border: 1px solid #bfdbba !important;
+}
+.add-btn {
+    background-color: #bfdbba !important;
+    color: white !important;
+}
+.viewcard-btn {
+    width: 120px !important;
+}
+.detail-btn {
+    color: rgba(0, 0, 0, 0.606) !important;
+}
+.detail-btn:hover {
+    background-color: #bfdbba !important;
+    color: white !important;
+}
+.list-text {
+    position: relative;
+    margin-left: 25px;
+    /* border: 2px solid red; */
+    display: block;
+    width: 100%;
+}
+.cart-qty {
+    /* border: 2px solid green; */
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.qty-btn {
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    margin: 2px;
+    cursor: pointer;
+}
+.qty-btn:active {
+    border: 1px solid rgb(128, 128, 128);
+}
+@media screen and (max-width: 665px) {
+    .card {
+        width: 220px !important;
+    }
+}
+@media screen and (max-width: 505px) {
+    .card {
+        width: 300px !important;
+    }
+}
