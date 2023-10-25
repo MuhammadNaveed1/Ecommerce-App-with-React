@@ -4,7 +4,7 @@ import CartItems from './context/cartItems';
 import {useState } from 'react';
 
 function App() {
-  const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+  const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   return (
     <>
     <CartItems.Provider value={[cartItems, setCartItems]}>

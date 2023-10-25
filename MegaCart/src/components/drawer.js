@@ -6,15 +6,35 @@ import AlignItemsList from './list';
 import CartItems from '../context/cartItems';
 import { useContext } from 'react';
 
-export default function TemporaryDrawer({openDrawer, setOpenDrawer}) {
+export default function TemporaryDrawer({openDrawer, setOpenDrawer, deleteItems}) {
     const cartItems = useContext(CartItems);
+    const cartDataQty = (task, id)=> {
+        const cartData = JSON.parse(localStorage.getItem('cart'));
+        const index = cartData.findIndex((value)=> value.id === id);
+        if (task === 'add') {
+            const updatedQty = cartData[index].qty + 1;
+            const updatedPrice = Number(cartData[index].price) + cartData[index].originalPrice;
+            cartData[index].qty = updatedQty;
+            cartData[index].price = updatedPrice.toFixed(2);
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            cartItems[1](cartData);
+        }
+        else {
+            const updatedQty = cartData[index].qty - 1;
+            const updatedPrice = Number(cartData[index].price) - cartData[index].originalPrice;
+            cartData[index].qty = updatedQty;
+            cartData[index].price = updatedPrice.toFixed(2);
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            cartItems[1](cartData);
+        }
+    }
+    // console.log(cartItems[0])
     const [state, setState] = React.useState({
         right: false,
     });
     React.useEffect(()=> {
         setState({right: openDrawer})
     },[openDrawer])
-    
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -29,7 +49,7 @@ export default function TemporaryDrawer({openDrawer, setOpenDrawer}) {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {cartItems[0].map((v, i)=> <AlignItemsList key={i} image={v.image} title={v.title} price={v.price} />)}
+                {cartItems[0].map((value, index)=> <AlignItemsList key={index} value={value} deleteItems={deleteItems} cartDataQty={cartDataQty}/>)}
             </List>
         </Box>
     );

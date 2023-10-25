@@ -29,7 +29,6 @@ function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { selectedCategoryfunc } = props;
-
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const cartItems = useContext(CartItems);
   const handleDrawerToggle = () => {
@@ -37,6 +36,13 @@ function DrawerAppBar(props) {
   };
   const getCategoryFunc = (selectedCategory) => {
     selectedCategoryfunc(selectedCategory);
+  }
+  const deleteItems = (id)=> {
+    const cartData = JSON.parse(localStorage.getItem('cart'))
+    const index = cartData.findIndex((value)=> value.id === id);
+    cartData.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cartData));
+    cartItems[1](cartData);
   }
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -126,7 +132,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </nav>
-      < TemporaryDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+      < TemporaryDrawer deleteItems={deleteItems} openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
     </Box>
   );
 }

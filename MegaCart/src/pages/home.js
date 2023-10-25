@@ -38,7 +38,7 @@ function Home () {
         </div>
         </div>
         <BasicModal open={open} handleClose={()=> setOpen(false)} product={details} />
-        </div>
+              </div>
     )
 }
 export default Home

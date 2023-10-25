@@ -9,13 +9,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../App.css'
 
-export default function AlignItemsList({image,title, price}) {
-    // const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+export default function AlignItemsList({value, deleteItems, cartDataQty}) {
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          < img alt='img' src={image} style={{width: 80,height: 100,objectFit: 'contain'}} />
+          < img alt='img' src={value.image} style={{width: 80,height: 100,objectFit: 'contain'}} />
         </ListItemAvatar>
         <div className='list-text'>
             <Typography
@@ -24,18 +23,18 @@ export default function AlignItemsList({image,title, price}) {
             variant="body1"
             color="text.primary"
             >
-                {title}
+                {value.title}
             </Typography>
             <Typography variant="body2">
-                {`${price} $`}
+                {`${value.price} $`}
             </Typography>
             <div className='cart-qty'>
             <Typography variant="body2">
                 {`QTY :`}</Typography>
-                <RemoveIcon fontSize='small' className='qty-btn' />
-                <span style={{fontSize:15}}>6</span>
-                <AddIcon fontSize='small' className='qty-btn'/>
-                <DeleteIcon style={{position: 'absolute', right: 0, color:'red', cursor: 'pointer'}} fontSize='small' />
+                <RemoveIcon onClick={()=> value.qty > 0 && cartDataQty('delete', value.id)} fontSize='small' className='qty-btn' />
+                <span style={{fontSize:15}}>{value.qty}</span>
+                <AddIcon onClick={()=> cartDataQty('add', value.id)} fontSize='small' className='qty-btn'/>
+                <DeleteIcon onClick={(()=> deleteItems(value.id))} style={{position: 'absolute', right: 0, color:'red', cursor: 'pointer'}} fontSize='small' />
             </div>
         </div>
       </ListItem>
