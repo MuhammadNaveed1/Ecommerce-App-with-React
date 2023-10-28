@@ -1,14 +1,14 @@
 import './App.css';
-import Home from './pages/home';
 import CartItems from './context/cartItems';
 import {useState } from 'react';
+import AppRouter from './config/router';
 
 function App() {
   const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   return (
     <>
     <CartItems.Provider value={[cartItems, setCartItems]}>
-    <Home />
+    <AppRouter />
     </CartItems.Provider>
     </>
   );

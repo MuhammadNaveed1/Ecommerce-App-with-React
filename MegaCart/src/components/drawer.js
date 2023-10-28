@@ -4,13 +4,20 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import AlignItemsList from './list';
 import CartItems from '../context/cartItems';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { useContext } from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import '../App.css'
 
-export default function TemporaryDrawer({openDrawer, setOpenDrawer, deleteItems}) {
+export default function TemporaryDrawer({ openDrawer, setOpenDrawer, deleteItems }) {
     const cartItems = useContext(CartItems);
-    const cartDataQty = (task, id)=> {
+    const navigate = useNavigate();
+    const cartDataQty = (task, id) => {
         const cartData = JSON.parse(localStorage.getItem('cart'));
-        const index = cartData.findIndex((value)=> value.id === id);
+        const index = cartData.findIndex((value) => value.id === id);
         if (task === 'add') {
             const updatedQty = cartData[index].qty + 1;
             const updatedPrice = Number(cartData[index].price) + cartData[index].originalPrice;
@@ -28,28 +35,55 @@ export default function TemporaryDrawer({openDrawer, setOpenDrawer, deleteItems}
             cartItems[1](cartData);
         }
     }
-    // console.log(cartItems[0])
+    const checkOut = ()=> {
+        navigate('/checkout')
+    }
     const [state, setState] = React.useState({
         right: false,
     });
-    React.useEffect(()=> {
-        setState({right: openDrawer})
-    },[openDrawer])
+    React.useEffect(() => {
+        setState({ right: openDrawer })
+    }, [openDrawer])
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-        setState({ state, [anchor]: open});
+        setState({ state, [anchor]: open });
         setOpenDrawer(false);
     };
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 400 }}
+            className='drawer'
+            sx={{
+                width: {
+                    md: 400,
+                    sm: 300,
+                    xs: 300
+                }
+            }}
             role="presentation"
             onKeyDown={toggleDrawer(anchor, false)}
         >
+            <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
+                <Button onClick={() => setOpenDrawer(false)}><ArrowBackIcon style={{ color: 'green' }} /></Button>
+            </Stack>
             <List>
-                {cartItems[0].map((value, index)=> <AlignItemsList key={index} value={value} deleteItems={deleteItems} cartDataQty={cartDataQty}/>)}
+                {cartItems[0].length > 0
+                    ?
+                    cartItems[0].map((value, index) =>
+                        <AlignItemsList key={index} value={value} deleteItems={deleteItems} cartDataQty={cartDataQty} />
+                    )
+                    :
+                    <Stack sx={{ width: '100%', height: '100vh', justifyContent: 'center', alignItems: 'center', }} spacing={2}>
+                        <Alert sx={{ width: '80%', height: 100, justifyContent: 'center', alignItems: 'center', color: '#9c7d51', borderColor: 'rgb(255 152 0)' }} color="warning" variant="outlined" severity='info'>
+                            Your Cart is Empty
+                        </Alert>
+                    </Stack>}
+                {cartItems[0].length > 0 &&
+                    <div className='checkoutBtn-div'>
+                        <Button variant="contained" onClick={()=> checkOut()} style={{ width: '60%', height: 40, backgroundColor: '#bfdbba', boxShadow: 'none' }}>Checkout</Button>
+                    </div>
+                }
             </List>
         </Box>
     );
@@ -62,7 +96,7 @@ export default function TemporaryDrawer({openDrawer, setOpenDrawer, deleteItems}
                         anchor={anchor}
                         open={state[anchor]}
                         onClose={toggleDrawer(anchor, false)}
-                        >
+                    >
                         {list(anchor)}
                     </Drawer>
                 </React.Fragment>

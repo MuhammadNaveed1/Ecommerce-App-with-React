@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import MediaControlCard from './mediaControlCard';
+import { DialogContent } from '@mui/material';
 import '../App.css'
 
 const style = {
@@ -26,8 +27,10 @@ export default function BasicModal({handleClose, open, product}) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} className="modal">
+          <DialogContent>
             <MediaControlCard product={product} />
+          </DialogContent>
         </Box>
       </Modal>
     </div>

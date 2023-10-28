@@ -34,7 +34,7 @@ export default function AlignItemsList({value, deleteItems, cartDataQty}) {
                 <RemoveIcon onClick={()=> value.qty > 0 && cartDataQty('delete', value.id)} fontSize='small' className='qty-btn' />
                 <span style={{fontSize:15}}>{value.qty}</span>
                 <AddIcon onClick={()=> cartDataQty('add', value.id)} fontSize='small' className='qty-btn'/>
-                <DeleteIcon onClick={(()=> deleteItems(value.id))} style={{position: 'absolute', right: 0, color:'red', cursor: 'pointer'}} fontSize='small' />
+                <DeleteIcon onClick={(()=> deleteItems(value.id))} className='delete-item-btn' style={{position: 'absolute', right: 0, color:'red', cursor: 'pointer'}} fontSize='small' />
             </div>
         </div>
       </ListItem>

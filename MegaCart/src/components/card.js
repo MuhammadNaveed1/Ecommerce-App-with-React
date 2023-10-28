@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useState } from 'react';
+import Rating from '@mui/material/Rating';
 
 export default function MediaCard({ products, setOpen, viewDetails }) {
   const [snackOpen, setSnackOpen] = useState(false)
@@ -39,7 +40,7 @@ export default function MediaCard({ products, setOpen, viewDetails }) {
         <img alt='img' src={products.image} style={{ width: '100%', height: 240, objectFit: 'contain' }} />
       </div>
       <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} open={snackOpen} autoHideDuration={2000} onClose={()=> setSnackOpen(false)}>
-        <Alert onClose={()=> setSnackOpen(false)} severity="success" sx={{ width: '100%', backgroundColor:'#bfdbba' }}>
+        <Alert onClose={()=> setSnackOpen(false)} severity="success" sx={{ width: '100%', backgroundColor:'#9cc694' }}>
         Added Product to your cart.
         </Alert>
       </Snackbar>
@@ -47,13 +48,16 @@ export default function MediaCard({ products, setOpen, viewDetails }) {
         <Typography gutterBottom variant="h5" component="div">
           {`${products.price} $`}
         </Typography>
-        <Typography variant="body1" color="text.secondary" style={{ height: 25 }}>
+        <Typography variant="body1" color="text.secondary" style={{ height: 25, }}>
           {products.title.slice(0, 30)}...
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions style={{display: 'inline-block'}}>
+      <Typography variant="body1" color="text.secondary">
+        <Rating name="read-only" value={products.rating.rate} readOnly />
+        </Typography>
         <Button className='card-btn add-btn' onClick={() => addToCart()}>Add to cart</Button>
-        <Button className='card-btn detail-btn' onClick={() => { setOpen(true); viewDetails(products) }}>View details</Button>
+        <Button className='card-btn detail-btn' onClick={() => { setOpen(true); viewDetails(products,setSnackOpen ) }}>View details</Button>
       </CardActions>
     </Card>
   );

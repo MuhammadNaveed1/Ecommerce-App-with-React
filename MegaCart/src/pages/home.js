@@ -19,8 +19,8 @@ function Home () {
         console.log(err)
       })
   },[category])
-  const viewDetails = (productData)=> {
-    setDetails(productData)
+  const viewDetails = (productData, setSnackOpen)=> {
+    setDetails([productData, setSnackOpen]);
   }
   const selectedCategory = (getCategory)=> {
     setCategory(getCategory)
